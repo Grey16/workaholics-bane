@@ -13,5 +13,6 @@
   "permissions": [
     "activeTab",
 	"tabs"
-  ]
+  ],
+  "scripts": ["eventPage.js"]
 }

@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+
+  "name": "Workaholic's Bane",
+  "description": "This extension stops users from using the Internet at specified times",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+  ]
+}

@@ -3,16 +3,19 @@
 *It listens for when the active tab is switched, and redirects users to the default page when they switch into a blacklisted active tab
 */
 
+// checks if the tab is the active tab in the current window
+var queryInfo = {active: true, lastFocusedWindow: true};
+// url for default page
 var resetProp = {url: "chrome://extensions/"};
-var queryProp = {active: true, lastFocusedWindow: true, status: "complete"};
 
-
-chrome.tabs.onActivated.addListener(function() {
-	chrome.tabs.update(resetProp);
-});
-
-
-chrome.tabs.query(queryProp, function(tabs) {
-	chrome.tabs.update(tabs[0].id, resetProp);
-});
+// starts blocking as soon as a tab updates
+chrome.tabs.onUpdated.addListener(function() {
+	// applies only to the current tab
+	chrome.tabs.query(queryInfo, function(tabs) {
+		// redirects user if they're not on the default screen
+		if (tabs[0].url != resetProp.url) {
+			chrome.tabs.update(resetProp)
+		}
+	});
+})
 

@@ -8,8 +8,8 @@ var queryInfo = {active: true, lastFocusedWindow: true};
 // url for default page
 var resetProp = {url: "chrome://extensions/"};
 
-/*
 function redirect() {
+	// applies only to the current tab
 	chrome.tabs.query(queryInfo, function(tabs) {
 		// redirects user if they're not on the default screen
 		if (tabs[0].url != resetProp.url) {
@@ -17,29 +17,16 @@ function redirect() {
 		}
 	});
 }
-*/
 
 
 // redirects user as soon as a tab updates
 chrome.tabs.onUpdated.addListener(function() {
-	// applies only to the current tab
-	chrome.tabs.query(queryInfo, function(tabs) {
-		// redirects user if they're not on the default screen
-		if (tabs[0].url != resetProp.url) {
-			chrome.tabs.update(resetProp)
-		}
-	});
+	redirect();
 });
 
 // redirects user as soon as they switch tabs
 chrome.tabs.onActivated.addListener(function() {
-	// applies only to the current tab
-	chrome.tabs.query(queryInfo, function(tabs) {
-		// redirects user if they're not on the default screen
-		if (tabs[0].url != resetProp.url) {
-			chrome.tabs.update(resetProp)
-		}
-	});
+	redirect();
 });
 
 

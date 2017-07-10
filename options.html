@@ -2,15 +2,15 @@
 
 <html>
 	<head>
-	<script type = "text/javascript" src = "options.js"></script>
+	<script src = "options.js"></script>
 	</head>
-	<body>
+	<body onload = "setDefaults()">
 		<h1>Set the Time for the Extension to Start</h1>
 		<div class = "dropdown">
 			<form>
-				<input type = "time">
+				<input type = "time" id = "pickTime">
 				<input type = "date" id = "pickDate">
-				<input type = "submit" value = "Set Time and Date">
+				<input type = "submit" onclick = "setAlarm()" value = "Set Time and Date">
 			</form>
 		</div>
 	</body>

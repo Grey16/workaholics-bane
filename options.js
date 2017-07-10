@@ -8,6 +8,7 @@ function setDefaults() {
 function setAlarm() {
 	//Get value in time and date
 	var when = document.getElementById('time').value;
+	document.getElementById('test').innerHTML = when.toString();
 	chrome.storage.sync.set({'time': when}, function() {
 		message('Settings saved.')
 	});
@@ -18,8 +19,10 @@ function setAlarm() {
 
 function getTime() {
 	chrome.storage.sync.get('time', function(items) {
-		document.getElementById('test').innerHTML = items.when.toString();
+		document.getElementById('test').innerHTML = items.time.toString();
 	});
 }
+
+window.addEventListener("load", setDefaults);
 	
 

@@ -3,6 +3,7 @@
 *It listens for when the active tab is switched, and redirects users to the default page when they switch into a blacklisted active tab
 */
 
+/*
 // checks if the tab is the active tab in the current window
 var queryInfo = {active: true, lastFocusedWindow: true};
 // url for default page
@@ -28,6 +29,7 @@ chrome.tabs.onUpdated.addListener(function() {
 chrome.tabs.onActivated.addListener(function() {
 	redirect();
 });
+*/
 
 
 

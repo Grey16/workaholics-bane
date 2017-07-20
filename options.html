@@ -2,18 +2,18 @@
 
 <html>
 	<head>
-	<script src = "options.js"></script>
+		<script src = "options.js"></script>
+		<title>Options</title>
 	</head>
 	<body>
 		<h1>Set the Time for the Extension to Start</h1>
 		<div class = "dropdown">
 			<form>
-				<input type = "time" id = "time">
-				<input type = "date" id = "date">
+				<input type = "time" id = "time" required = "true">
+				<input type = "date" id = "date" required = "true">
 				<input type = "submit" id = "submit" value = "Set Time and Date">
 			</form>
-			<p id = "test"></p>
+			<div id = "status"></div>
 		</div>
-		<button id = "button">Button</button>
 	</body>
 </html>

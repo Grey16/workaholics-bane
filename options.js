@@ -24,5 +24,9 @@ function getTime() {
 }
 
 window.addEventListener("load", setDefaults);
+var submit = document.getElementById('submit');
+submit.addEventListener("click", setAlarm);
+var button = document.getElementById('button');
+button.addEventListener("click", getTime);
 	
 

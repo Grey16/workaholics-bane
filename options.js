@@ -19,11 +19,9 @@ function setDefaults() {
 	});
 	console.log('testing');
 	// displays alarms
-	/*
-	chrome.alarms.get(function(alarms) {
-		document.getElementById('check').textContent = alarms[0].scheduledTime;
+	chrome.alarms.get('myAlarm', function(alarm) {
+		document.getElementById('check').textContent = alarm.when;
 	});
-	*/
 }
 
 //Saves the time and date set by the user
@@ -48,8 +46,14 @@ function saveTime() {
 	chrome.alarms.create("myAlarm", {'when': ms});
 }
 
+//Clears all alarms
+function clearAlarms() {
+	chrome.alarms.clearAll();
+}
+
 //Executes functions at appropriate events
 window.addEventListener('load', setDefaults);
 document.getElementById('submit').addEventListener('click', saveTime);
+document.getElementById('clear').addEventListener('click', clearAlarms);
 
 

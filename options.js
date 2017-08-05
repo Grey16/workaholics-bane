@@ -43,11 +43,6 @@ function saveTime() {
 		'time': time,
 		'date': date,
 		'ms': ms
-	}, function() {
-		document.getElementById('status').textContent = 'Options saved';
-		setTimeout(function() {
-			document.getElementById('status').textContent = ''
-		}, 750);
 	});
 	//Creates alarm based on user settings
 	chrome.alarms.create("myAlarm", {'when': ms});

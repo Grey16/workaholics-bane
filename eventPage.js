@@ -29,16 +29,17 @@ chrome.tabs.onUpdated.addListener(function() {
 
 // redirects user as soon as they switch tabs
 chrome.tabs.onActivated.addListener(function() {
+	console.log("Blocking: " + blocking);
 	redirect();
 });
 
 // switches blocking when the alarm goes off
 chrome.alarms.onAlarm.addListener(function(alarm) {
-	redirect();
-	if (blocking) {
-		blocking = false;
-	} else {
+	if (!blocking) {
 		blocking = true;
+		redirect();
+	} else {
+		blocking = false;
 	}
 });
 

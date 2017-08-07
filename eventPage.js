@@ -37,7 +37,9 @@ chrome.tabs.onActivated.addListener(function() {
 chrome.alarms.onAlarm.addListener(function(alarm) {
 	if (!blocking) {
 		blocking = true;
-		redirect();
+		// opens new tab
+		chrome.tabs.create(resetProp);
+		//redirect();
 	} else {
 		blocking = false;
 	}

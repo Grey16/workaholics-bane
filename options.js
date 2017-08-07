@@ -43,7 +43,7 @@ function saveTime() {
 		'ms': ms
 	});
 	//Creates alarm based on user settings
-	chrome.alarms.create("myAlarm", {'when': ms});
+	chrome.alarms.create("myAlarm", {'when': ms, 'periodInMinutes': 5});
 }
 
 //Clears all alarms

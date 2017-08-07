@@ -39,9 +39,12 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 		blocking = true;
 		// opens new tab
 		chrome.tabs.create(resetProp);
-		//redirect();
 	} else {
 		blocking = false;
+		// opens new tab
+		chrome.tabs.create({url: "https://www.google.com/"});
+		// clears all alamrs
+		chrome.alarms.clearAll();
 	}
 });
 

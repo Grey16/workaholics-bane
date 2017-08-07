@@ -5,8 +5,9 @@
 		<title>Options</title>
 	</head>
 	<body>
-		<h1>Set the Time for the Extension to Start</h1>
-		<div class = "dropdown">
+		<h1>When Do You Want to Stop Working?</h1>
+		<h2>Set a Specific Time to Stop Working</h2>
+		<div>
 			<form>
 				<input type = "time" id = "time" required = "true">
 				<input type = "date" id = "date" required = "true">
@@ -14,8 +15,12 @@
 			</form>
 			<div id = "status"></div>
 			<div id = "check"></div>
-			<button id = "clear">Clear Alarms</button>
 			<script src = "options.js"></script>
 		</div>
+		<h2>Set How Long You Want to Work</h2>
+		<h1>How Long Do You Want Your Break to Be?</h1>
+		<p>By default, the break is 5 minutes long, but you can adjust the number of minutes here.</p>
+		<button id = "clear">I Never Want to Stop Working</button>
+		<p>The button above clears all alarms, allowing you to work uninterrupted.</p>
 	</body>
 </html>

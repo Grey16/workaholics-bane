@@ -5,16 +5,17 @@
 		<title>Options</title>
 	</head>
 	<body>
+		<div id = "settings"></div>
 		<h1>When Do You Want to Stop Working?</h1>
 		<h2>Set a Specific Time to Stop Working</h2>
 		<div>
 			<form>
-				<input type = "time" id = "time" required = "true">
-				<input type = "date" id = "date" required = "true">
-				<input type = "submit" id = "submit" value = "Set Time and Date">
+				<input type = "time" id = "time">
+				<input type = "date" id = "date">
+				<!--<input type = "submit" id = "submit" value = "Set Time and Date">-->
 			</form>
-			<div id = "status"></div>
-			<script src = "options.js"></script>
+			<button id = "setTime">Set Time and Date</button>
+			<div id = "timeStatus"></div>
 		</div>
 		<h2>Set How Long You Want to Work</h2>
 		<div>
@@ -28,5 +29,6 @@
 		<p>By default, the break is 5 minutes long, but you can adjust the number of minutes here.</p>
 		<button id = "clear">I Never Want to Stop Working</button>
 		<p>The button above clears all alarms, allowing you to work uninterrupted.</p>
+		<script src = "options.js"></script>
 	</body>
 </html>

@@ -16,7 +16,7 @@ function pageSetup() {
 		var timeArr = items.time.split(':');
 		//creates date object and displays the local time
 		var local = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
-		document.getElementById('status').textContent = local;
+		document.getElementById('settings').textContent = local;
 	});
 	/*
 	//displays alarms
@@ -31,19 +31,26 @@ function saveTime() {
 	var time = document.getElementById('time').value;
 	var date = document.getElementById('date').value;
 	//check to see user has set both values
+	var timeStatus = document.getElementById('timeStatus');
 	if(!time || !date) {
+		timeStatus.textContent = "Please fill out both the time and date";
+		setTimeout(function() {
+			timeStatus.textContent = '';
+		}, 1000);
 		return;
 	}
+	var dateArr = date.split('-');
+	var timeArr = time.split(':');
 	var localTime = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
 	var ms = localTime.getTime();
-	console.log("Milliseconds set by user: " + ms);
-	console.log("Current milliseconds: " + Date.now());
 	if(ms < Date.now()) {
+		timeStatus.textContent = "Please enter a valid time and date";
+		setTimeout(function() {
+			timeStatus.textContent = '';
+		}, 1000);
 		return;
 	}
 	//stores user settings
-	var dateArr = date.split('-');
-	var timeArr = time.split(':');
 	chrome.storage.sync.set({
 		'time': time,
 		'date': date,
@@ -51,6 +58,10 @@ function saveTime() {
 	});
 	//creates alarm based on user settings
 	chrome.alarms.create({'when': ms, 'periodInMinutes': 2});
+	timeStatus.textContent = "Time and date saved";
+	setTimeout(function() {
+		timeStatus.textContent = '';
+	}, 1000);
 }
 
 //saves the minutes set by the user, and creates an alarm set to go off at that time
@@ -81,9 +92,9 @@ function clearAlarms() {
 //Executes functions at appropriate events
 window.addEventListener('load', function() {
 	pageSetup();
-	document.getElementById('submit').addEventListener('click', saveTime);
-	document.getElementById('clear').addEventListener('click', clearAlarms);
+	document.getElementById('setTime').addEventListener('click', saveTime);
 	document.getElementById('setMinutes').addEventListener('click', setMinutes);
+	document.getElementById('clear').addEventListener('click', clearAlarms);
 });
 
 

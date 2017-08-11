@@ -14,10 +14,16 @@
 				<input type = "submit" id = "submit" value = "Set Time and Date">
 			</form>
 			<div id = "status"></div>
-			<div id = "check"></div>
 			<script src = "options.js"></script>
 		</div>
 		<h2>Set How Long You Want to Work</h2>
+		<div>
+			<form>
+				<input type = "number" id = "minutes" name = "Minutes:" min = "1" max = "1440" step = "1">
+			</form>
+			<button id = "setMinutes">Set Minutes</button>
+			<div id = "minStatus"></div>
+		</div>
 		<h1>How Long Do You Want Your Break to Be?</h1>
 		<p>By default, the break is 5 minutes long, but you can adjust the number of minutes here.</p>
 		<button id = "clear">I Never Want to Stop Working</button>

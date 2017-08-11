@@ -26,19 +26,24 @@ function pageSetup() {
 	*/
 }
 
-//saves the time and date set by the user
+//saves the time and date set by the user, and creates an alarm set to go off at that time
 function saveTime() {
 	var time = document.getElementById('time').value;
 	var date = document.getElementById('date').value;
 	//check to see user has set both values
-	if (!time || !date) {
+	if(!time || !date) {
+		return;
+	}
+	var localTime = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
+	var ms = localTime.getTime();
+	console.log("Milliseconds set by user: " + ms);
+	console.log("Current milliseconds: " + Date.now());
+	if(ms < Date.now()) {
 		return;
 	}
 	//stores user settings
 	var dateArr = date.split('-');
 	var timeArr = time.split(':');
-	var localTime = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
-	var ms = localTime.getTime();
 	chrome.storage.sync.set({
 		'time': time,
 		'date': date,
@@ -46,6 +51,26 @@ function saveTime() {
 	});
 	//creates alarm based on user settings
 	chrome.alarms.create({'when': ms, 'periodInMinutes': 2});
+}
+
+//saves the minutes set by the user, and creates an alarm set to go off at that time
+function setMinutes() {
+	var minutes = document.getElementById('minutes').value;
+	//check to see user has set value
+	var minStatus = document.getElementById('minStatus');
+	if(!minutes) {
+		minStatus.textContent = "Please enter a value";
+		setTimeout(function() {
+			minStatus.textContent = '';
+		}, 1000);
+		return;
+	}
+	//creates alarm
+	chrome.alarms.create({delayInMinutes: parseInt(minutes), periodInMinutes: 2});
+	minStatus.textContent = "Minutes saved";
+	setTimeout(function() {
+		minStatus.textContent = '';
+	}, 1000);
 }
 
 //clears all alarms
@@ -58,6 +83,7 @@ window.addEventListener('load', function() {
 	pageSetup();
 	document.getElementById('submit').addEventListener('click', saveTime);
 	document.getElementById('clear').addEventListener('click', clearAlarms);
+	document.getElementById('setMinutes').addEventListener('click', setMinutes);
 });
 
 

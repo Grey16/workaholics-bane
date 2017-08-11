@@ -6,13 +6,12 @@
 	</head>
 	<body>
 		<div id = "settings"></div>
-		<h1>When Do You Want to Stop Working?</h1>
+		<h1>Set When You Want to Stop Working</h1>
 		<h2>Set a Specific Time to Stop Working</h2>
 		<div>
 			<form>
 				<input type = "time" id = "time">
 				<input type = "date" id = "date">
-				<!--<input type = "submit" id = "submit" value = "Set Time and Date">-->
 			</form>
 			<button id = "setTime">Set Time and Date</button>
 			<div id = "timeStatus"></div>
@@ -25,10 +24,18 @@
 			<button id = "setMinutes">Set Minutes</button>
 			<div id = "minStatus"></div>
 		</div>
-		<h1>How Long Do You Want Your Break to Be?</h1>
-		<p>By default, the break is 5 minutes long, but you can adjust the number of minutes here.</p>
-		<button id = "clear">I Never Want to Stop Working</button>
-		<p>The button above clears all alarms, allowing you to work uninterrupted.</p>
+		<h1>Set the Length of Your Break</h1>
+		<div>
+			<p>By default, the break is 2 minutes long, but you can adjust the number of minutes here, with a minimum break of 1 minute and a maximum of 60 minutes.</p>
+			<form>
+				<input type = "number" id = "length" name = "Length of Break:" min = "1" max = "60" step = "1">
+			</form>
+			<button id = "saveBreak">Set Length of Break</button>
+			<div id = "breakStatus"></div>
+		</div>
+		<h1>Temporarily Disable This Extension</h1>
+		<p>The button below clears all alarms, allowing you to work uninterrupted until you set another stopping point.</p>
+		<button id = "clear">I Don't Want to Stop Working</button>
 		<script src = "options.js"></script>
 	</body>
 </html>

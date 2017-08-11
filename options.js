@@ -18,6 +18,7 @@ function pageSetup() {
 		var local = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
 		document.getElementById('settings').textContent = local;
 	});
+	console.log(getBreak());
 	/*
 	//displays alarms
 	chrome.alarms.get(function(alarm) {
@@ -57,8 +58,8 @@ function saveTime() {
 		'ms': ms
 	});
 	//creates alarm based on user settings
-	chrome.alarms.create({'when': ms, 'periodInMinutes': 2});
-	timeStatus.textContent = "Time and date saved";
+	chrome.alarms.create({when: ms, periodInMinutes: getBreak()});
+	timeStatus.textContent = "Settings saved";
 	setTimeout(function() {
 		timeStatus.textContent = '';
 	}, 1000);
@@ -77,11 +78,49 @@ function setMinutes() {
 		return;
 	}
 	//creates alarm
-	chrome.alarms.create({delayInMinutes: parseInt(minutes), periodInMinutes: 2});
-	minStatus.textContent = "Minutes saved";
+	chrome.alarms.create({delayInMinutes: parseInt(minutes), periodInMinutes: getBreak()});
+	minStatus.textContent = "Settings saved";
 	setTimeout(function() {
 		minStatus.textContent = '';
 	}, 1000);
+}
+
+//saves the length of the break, in minutes, set by the user
+function saveBreak() {
+	var length = document.getElementById('length').value;
+	//check to see user has set value
+	var breakStatus = document.getElementById('breakStatus');
+	if(!length) {
+		breakStatus.textContent = "Please enter a value";
+		setTimeout(function() {
+			breakStatus.textContent = '';
+		}, 1000);
+		return;
+	}
+	//stores user settings
+	chrome.storage.sync.set({
+		'breakLength': parseInt(length)
+	}, function() {
+		breakStatus.textContent = "Settings saved";
+		setTimeout(function() {
+			breakStatus.textContent = '';
+		}, 1000);
+	});
+}
+
+//gets the break length specified by user
+function getBreak() {
+	var result;
+	chrome.storage.sync.get('breakLength', function(items) {
+		if(!items) {
+			result = 2;
+		} else {
+			console.log(items.breakLength);
+			result = items.breakLength;
+		}
+	});
+	console.log(result);
+	return result;
 }
 
 //clears all alarms
@@ -94,7 +133,9 @@ window.addEventListener('load', function() {
 	pageSetup();
 	document.getElementById('setTime').addEventListener('click', saveTime);
 	document.getElementById('setMinutes').addEventListener('click', setMinutes);
+	document.getElementById('saveBreak').addEventListener('click', saveBreak);
 	document.getElementById('clear').addEventListener('click', clearAlarms);
+	
 });
 
 

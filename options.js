@@ -1,6 +1,8 @@
 /*This is the script for the options page.
 */
 
+var breakLength = 2;
+
 //sets up the page after it loads
 function pageSetup() {
 	//sets the date picker to the current date upon page load
@@ -18,7 +20,21 @@ function pageSetup() {
 		var local = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
 		document.getElementById('settings').textContent = local;
 	});
-	console.log(getBreak());
+	
+	//assigns the user-selected break length to a global variable
+	getBreak(function(value) {
+		breakLength = value;
+	});
+	
+	chrome.alarms.getAll(function(alarms) {
+		if(!alarms[0]) {
+			document.getElementById('alarms').textContent = "It still works";
+		} else {
+			document.getElementById('alarms').textContent = alarms[0].periodInMinutes;
+			console.log(alarms[0]);
+		}
+	});
+	
 	/*
 	//displays alarms
 	chrome.alarms.get(function(alarm) {
@@ -58,7 +74,10 @@ function saveTime() {
 		'ms': ms
 	});
 	//creates alarm based on user settings
-	chrome.alarms.create({when: ms, periodInMinutes: getBreak()});
+	chrome.alarms.create({
+		when: ms, 
+		periodInMinutes: breakLength
+	});
 	timeStatus.textContent = "Settings saved";
 	setTimeout(function() {
 		timeStatus.textContent = '';
@@ -78,7 +97,10 @@ function setMinutes() {
 		return;
 	}
 	//creates alarm
-	chrome.alarms.create({delayInMinutes: parseInt(minutes), periodInMinutes: getBreak()});
+	chrome.alarms.create({
+		delayInMinutes: parseInt(minutes), 
+		periodInMinutes: breakLength
+	});
 	minStatus.textContent = "Settings saved";
 	setTimeout(function() {
 		minStatus.textContent = '';
@@ -108,19 +130,15 @@ function saveBreak() {
 	});
 }
 
-//gets the break length specified by user
-function getBreak() {
-	var result;
-	chrome.storage.sync.get('breakLength', function(items) {
-		if(!items) {
-			result = 2;
+//gets length of break specified by user
+function getBreak(callback) {
+	chrome.storage.sync.get(function(items) {
+		if(!items.breakLength) {
+			callback(2);
 		} else {
-			console.log(items.breakLength);
-			result = items.breakLength;
+			callback(items.breakLength);
 		}
 	});
-	console.log(result);
-	return result;
 }
 
 //clears all alarms

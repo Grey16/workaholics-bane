@@ -49,3 +49,14 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 });
 
 
+//responds to message from popup
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+	console.log("Reached event page");
+	if(blocking) {
+		sendResponse({message: "true"});
+	} else {
+		sendResponse({message: "false"});
+	}
+});
+
+

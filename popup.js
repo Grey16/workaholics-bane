@@ -2,13 +2,18 @@
 */
 
 function setup() {
-	//determines if the extension is currently blocking
-	chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
+	//sends message to eventPage to determine if the extension is currently blocking
+	chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
 		var message;
-		if (tabs[0].url != "chrome://extensions/") {
-			message = "until break";
-		} else {
+		console.log(response);
+		console.log(response.message);
+		//display different messages depending on whether the extension is blocking
+		if(response.message == "true") {
 			message = "until break ends";
+		} else if (document.getElementById('alarms').textContent == "Set Break"){
+			message = "";
+		} else {
+			message = "until break";
 		}
 		document.getElementById('message').textContent = message;
 	});
@@ -16,8 +21,7 @@ function setup() {
 	//shows how much time until the alarm goes off
 	chrome.alarms.getAll(function(alarms) {
 		if(!alarms[0]) {
-			document.getElementById('alarms').textContent = "No Time";
-			document.getElementById('message').textContent = "Set Next Break";
+			document.getElementById('alarms').textContent = "Set Break";
 		} else {
 			var diff = alarms[0].scheduledTime - Date.now();
 			var hours = Math.floor(diff / (1000 * 60 * 60));
@@ -25,19 +29,13 @@ function setup() {
 			var seconds = Math.floor((diff % (1000 * 60)) / 1000)
 			var calc = Math.trunc(diff / 1000);
 			calc = Math.trunc(calc / 60);
-			document.getElementById('alarms').textContent = hours.toString() + "h " + minutes.toString() + "m " + seconds.toString() + "s";
+			var time = minutes.toString() + "m " + seconds.toString() + "s";
+			if(hours != 0) {
+				time = hours.toString() + "h " + time;
+			}
+			document.getElementById('alarms').textContent = time;
 		}
 	});
-	
-	chrome.runtime.sendMessage({blocking: "status"}, function(response) {
-		var message;
-		if(response.message == "true") {
-			message = "until break ends";
-		} else {
-			message = "until break";
-		}
-		document.getElementById('message').textContent = message;
-	})
 }
 
 window.addEventListener('load', function () {

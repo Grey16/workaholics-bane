@@ -18,12 +18,21 @@ function setup() {
 		document.getElementById('message').textContent = message;
 	});
 	
+	var alarm = true;
+	var scheduledTime;
 	//shows how much time until the alarm goes off
 	chrome.alarms.getAll(function(alarms) {
 		if(!alarms[0]) {
 			document.getElementById('alarms').textContent = "Set Break";
+			alarm = false;
 		} else {
-			var diff = alarms[0].scheduledTime - Date.now();
+			scheduledTime = alarms[0].scheduledTime;
+		}
+	});
+	
+	if(alarm) {
+		setInterval(function() {
+			var diff = scheduledTime - Date.now();
 			var hours = Math.floor(diff / (1000 * 60 * 60));
 			var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((diff % (1000 * 60)) / 1000)
@@ -34,8 +43,9 @@ function setup() {
 				time = hours.toString() + "h " + time;
 			}
 			document.getElementById('alarms').textContent = time;
-		}
-	});
+		}, 1000);
+	}
+	
 }
 
 window.addEventListener('load', function () {

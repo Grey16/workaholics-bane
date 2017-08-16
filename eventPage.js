@@ -42,8 +42,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 	} else {
 		blocking = false;
 		// opens new tab
-		chrome.tabs.create({url: "https://www.google.com/"});
-		// clears all alamrs
+		chrome.tabs.create({url: "chrome-extension://bjbfclakcmjominiidfompgpdmobeljp/options.html"});
+		// clears all alarms
 		chrome.alarms.clearAll();
 	}
 });

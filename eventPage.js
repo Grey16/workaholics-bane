@@ -21,7 +21,6 @@ function redirect() {
 }
 
 // redirects user as soon as a tab updates
-
 chrome.tabs.onUpdated.addListener(function() {
 	redirect();
 });

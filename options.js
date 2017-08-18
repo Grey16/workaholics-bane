@@ -10,6 +10,7 @@ function pageSetup() {
 	//prevents user from selecting days prior to today
 	var today = new Date().toISOString().split('T')[0];
 	document.getElementById('date').setAttribute("min", today);
+	/*
 	//displays last set time and date below the timepicker
 	chrome.storage.sync.get(['time', 'date', 'ms'], function(items) {
 		//splits date into year, month, day
@@ -20,27 +21,12 @@ function pageSetup() {
 		var local = new Date(dateArr[0], dateArr[1] - 1, dateArr[2], timeArr[0], timeArr[1]);
 		document.getElementById('settings').textContent = local;
 	});
+	*/
 	
 	//assigns the user-selected break length to a global variable
 	getBreak(function(value) {
 		breakLength = value;
 	});
-	
-	chrome.alarms.getAll(function(alarms) {
-		if(!alarms[0]) {
-			document.getElementById('alarms').textContent = "It still works";
-		} else {
-			document.getElementById('alarms').textContent = alarms[0].periodInMinutes;
-			console.log(alarms[0]);
-		}
-	});
-	
-	/*
-	//displays alarms
-	chrome.alarms.get(function(alarm) {
-		document.getElementById('check').textContent = alarm.when;
-	});
-	*/
 }
 
 //saves the time and date set by the user, and creates an alarm set to go off at that time

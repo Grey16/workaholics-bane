@@ -5,11 +5,16 @@ function setup() {
 	//sends message to eventPage to determine if the extension is currently blocking
 	chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
 		var message;
-		console.log(response);
-		console.log(response.message);
 		//display different messages depending on whether the extension is blocking
 		if(response.message == "true") {
 			message = "until break ends";
+			//creates button and places it under the message
+			var disableBtn = document.createElement("button");
+			var btnText = document.createTextNode("Disable the extension");
+			disableBtn.appendChild(btnText);
+			var place = document.getElementById('message');
+			console.log("Appending the disable button");
+			document.body.appendChild(disableBtn);
 		} else if (document.getElementById('alarms').textContent == "Set Break"){
 			message = "";
 		} else {

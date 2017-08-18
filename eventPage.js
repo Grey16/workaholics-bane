@@ -5,31 +5,30 @@
 
 var blocking = false;
 
-// checks if the tab is the active tab in the current window
-var queryInfo = {active: true, lastFocusedWindow: true};
 // url for default page
-var resetProp = {url: "chrome://extensions/"};
+var resetProp = {url: "chrome-extension://bjbfclakcmjominiidfompgpdmobeljp/redirect.html"};
 
 function redirect() {
-	// applies only to the current tab
-	chrome.tabs.query(queryInfo, function(tabs) {
+	// applies only to the active tab in the current window
+	chrome.tabs.query({active: true, lastFocusedWindow: true}, function(tabs) {
 		// redirects user if they're not on the default screen
 		if (blocking) {
 			if (tabs[0].url != resetProp.url) {
-				chrome.tabs.update(resetProp)
+				chrome.tabs.update(resetProp);
 			}
 		}
 	});
 }
 
 // redirects user as soon as a tab updates
+
 chrome.tabs.onUpdated.addListener(function() {
 	redirect();
 });
 
+
 // redirects user as soon as they switch tabs
 chrome.tabs.onActivated.addListener(function() {
-	console.log("Blocking: " + blocking);
 	redirect();
 });
 
@@ -37,7 +36,7 @@ chrome.tabs.onActivated.addListener(function() {
 function disable() {
 	blocking = false;
 	// opens new tab
-	chrome.tabs.create({url: "chrome-extension://bjbfclakcmjominiidfompgpdmobeljp/options.html"});
+	chrome.tabs.create({url: "options.html"});
 	// clears all alarms
 	chrome.alarms.clearAll();
 }

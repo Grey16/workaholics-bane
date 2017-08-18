@@ -1,9 +1,14 @@
 /*Javascript
 */
 
+//sends message to eventPage to disable the extension
+function disable() {
+	chrome.runtime.sendMessage({message: "disable"});
+}
+
 function setup() {
 	//sends message to eventPage to determine if the extension is currently blocking
-	chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+	chrome.runtime.sendMessage({message: "status"}, function(response) {
 		var message;
 		//display different messages depending on whether the extension is blocking
 		if(response.message == "true") {
@@ -12,9 +17,11 @@ function setup() {
 			var disableBtn = document.createElement("button");
 			var btnText = document.createTextNode("Disable the extension");
 			disableBtn.appendChild(btnText);
-			var place = document.getElementById('message');
+			disableBtn.id = "disableBtn";
 			console.log("Appending the disable button");
 			document.body.appendChild(disableBtn);
+			//adds event listener to button so it disables the extension when clicked
+			document.getElementById('disableBtn').addEventListener('click', disable);
 		} else if (document.getElementById('alarms').textContent == "Set Break"){
 			message = "";
 		} else {
@@ -44,17 +51,6 @@ function setup() {
 			}, 1000);
 		}
 	});
-	
-	//if the extension is blocking, create a button that will disable the extension
-	if(document.getElementById('message').textContent == "until break ends") {
-		//creates button and places it under the message
-		var disableBtn = document.createElement("button");
-		var btnText = document.createTextNode("Disable the extension");
-		disableBtn.appendChild(btnText);
-		var place = document.getElementById('message');
-		place.appendChild(disableBtn);
-	}
-	
 }
 
 window.addEventListener('load', function () {

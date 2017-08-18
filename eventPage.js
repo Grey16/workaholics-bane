@@ -33,6 +33,15 @@ chrome.tabs.onActivated.addListener(function() {
 	redirect();
 });
 
+//disables the extension and stops blocking
+function disable() {
+	blocking = false;
+	// opens new tab
+	chrome.tabs.create({url: "chrome-extension://bjbfclakcmjominiidfompgpdmobeljp/options.html"});
+	// clears all alarms
+	chrome.alarms.clearAll();
+}
+
 // switches blocking when the alarm goes off
 chrome.alarms.onAlarm.addListener(function(alarm) {
 	if (!blocking) {
@@ -40,23 +49,24 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 		// opens new tab
 		chrome.tabs.create(resetProp);
 	} else {
-		blocking = false;
-		// opens new tab
-		chrome.tabs.create({url: "chrome-extension://bjbfclakcmjominiidfompgpdmobeljp/options.html"});
-		// clears all alarms
-		chrome.alarms.clearAll();
+		disable();
 	}
 });
 
 
 //responds to message from popup
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	console.log("Reached event page");
-	if(blocking) {
-		sendResponse({message: "true"});
-	} else {
-		sendResponse({message: "false"});
+	//if popup is checking the status, send back the status of blocking
+	if(request.message == "status") {
+		if(blocking) {
+			sendResponse({message: "true"});
+		} else {
+			sendResponse({message: "false"});
+		}
+	} else if(request.message == "disable") {
+		disable();
 	}
+	
 });
 
 
